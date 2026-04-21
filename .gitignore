@@ -1,0 +1,32 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Maven
+target/
+build/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Sensitive config
+application-dev.yml
+application-local.yml
+.env
+*.env
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if frontend tools added later)
+node_modules/
+dist/
+
+# Spring Boot
+spring-shell.log

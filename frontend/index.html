@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Split Payment Engine</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">SplitPay<span class="accent">Engine</span></span>
+    </div>
+    <div class="badge">Test Mode</div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="hero-title">Marketplace <span class="accent">Split</span> Payments</h1>
+      <p class="hero-sub">Instantly route funds between vendors and platform using Razorpay Routes.</p>
+    </section>
+
+    <!-- Split Visualization -->
+    <div class="split-bar-wrapper">
+      <div class="split-bar">
+        <div class="split-segment vendor-seg" id="vendorSeg" style="width:80%">
+          <span>Vendor <strong id="vendorPct">80%</strong></span>
+        </div>
+        <div class="split-segment platform-seg" id="platformSeg" style="width:20%">
+          <span>Platform <strong id="platformPct">20%</strong></span>
+        </div>
+      </div>
+      <div class="split-legend">
+        <span class="dot vendor-dot"></span> Vendor &nbsp;|&nbsp;
+        <span class="dot platform-dot"></span> Platform Fee (20%)
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- Order Form -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🛒</span>
+          <h2>Create Order</h2>
+        </div>
+
+        <div class="form-group">
+          <label for="vendorSelect">Select Vendor</label>
+          <div class="select-wrapper">
+            <select id="vendorSelect">
+              <option value="">Loading vendors...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerEmail">Customer Email</label>
+          <input type="email" id="customerEmail" placeholder="customer@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Amount (INR ₹)</label>
+          <div class="input-prefix-wrap">
+            <span class="prefix">₹</span>
+            <input type="number" id="amount" placeholder="1000" min="1" step="0.01" />
+          </div>
+        </div>
+
+        <div class="amount-preview" id="amountPreview" style="display:none">
+          <div class="preview-row">
+            <span>Total</span><span id="previewTotal">—</span>
+          </div>
+          <div class="preview-row vendor">
+            <span>→ Vendor</span><span id="previewVendor">—</span>
+          </div>
+          <div class="preview-row platform">
+            <span>→ Platform</span><span id="previewPlatform">—</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="payBtn" onclick="createOrder()">
+          <span id="payBtnText">⚡ Pay Now</span>
+          <span id="payBtnSpinner" class="spinner" style="display:none"></span>
+        </button>
+      </div>
+
+      <!-- Response Panel -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">📋</span>
+          <h2>Response</h2>
+          <button class="btn-clear" onclick="clearResponse()">Clear</button>
+        </div>
+
+        <div id="statusBadge" class="status-badge" style="display:none"></div>
+
+        <pre id="responseBox" class="response-box">// Response will appear here after creating an order...</pre>
+
+        <div id="checkoutInfo" class="checkout-info" style="display:none">
+          <p>✅ Order created! Razorpay Checkout launched.<br>
+          Use test card: <code>4111 1111 1111 1111</code> | CVV: any | Expiry: any future date</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Vendors Table -->
+    <div class="card full-width">
+      <div class="card-header">
+        <span class="card-icon">👥</span>
+        <h2>Registered Vendors</h2>
+        <button class="btn-secondary" onclick="loadVendors()">↻ Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table id="vendorsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Razorpay Account</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="vendorsBody">
+            <tr><td colspan="4" class="loading-cell">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Add Vendor -->
+    <div class="card full-width">
+      <div class="card-header">
+        <span class="card-icon">➕</span>
+        <h2>Add Vendor</h2>
+      </div>
+      <div class="inline-form">
+        <input type="text" id="vendorName" placeholder="Vendor Name" />
+        <input type="email" id="vendorEmail" placeholder="vendor@example.com" />
+        <input type="text" id="vendorAccountId" placeholder="Razorpay Account ID (optional)" />
+        <button class="btn-primary" onclick="addVendor()">Add Vendor</button>
+      </div>
+      <div id="vendorMsg" class="vendor-msg"></div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    Built with Spring Boot + Razorpay · Split Payment Engine · Portfolio Project
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
